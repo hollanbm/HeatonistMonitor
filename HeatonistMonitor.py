@@ -17,9 +17,9 @@ def job():
     last_dab_url = 'https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-the-last-dab-reaper-edition'
     if isAvailable(last_dab_url):
         #MAKE SURE TO UPDATE THIS FILE WITH THE PUSHOVER KEY/TOKEN
-		pushoverUserKey = "pushover user key goes here"
-		pushoverApiToken = "pushover api token goes here"
-		client = Client(pushoverUserKey, api_token=pushoverApiToken)
+        pushoverUserKey = "pushover user key goes here"
+        pushoverApiToken = "pushover api token goes here"
+        client = Client(pushoverUserKey, api_token=pushoverApiToken)
         client.send_message(last_dab_url, title="Last Dab Available")
 
 def main():
