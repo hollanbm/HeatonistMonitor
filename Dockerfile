@@ -18,7 +18,7 @@ WORKDIR /home/seluser/app/
 
 RUN sudo pip3 install -r requirements.txt
 
-CMD ["python3", "./DB/create_db.py"]
-CMD ["python3", "./DB/populate_db.py"]
+RUN python3 ./DB/create_db.py
+RUN python3 ./DB/populate_db.py
 RUN find .
 CMD ["python3", "HeatonistMonitor.py"]
