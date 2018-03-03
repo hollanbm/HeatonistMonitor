@@ -19,8 +19,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # Insert a Person in the person table
-last_dab = Product(id=1,name='The Last Dab',url='https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-the-last-dab',price=0,instock=0,lastupdate=datetime.datetime.today())
-last_dab_reaper = Product(id=2,name='The Last Dab: Reaper Edition',url='https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-the-last-dab-reaper-edition',price=0,instock=0,lastupdate=datetime.datetime.today())
-session.add(last_dab)
-session.add(last_dab_reaper)
+session.add(Product(url='https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-the-last-dab'))
+session.add(Product(url='https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-the-last-dab-reaper-edition'))
+#session.add(Product(url='https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-hot-sauce'))
 session.commit()

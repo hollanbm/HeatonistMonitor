@@ -9,12 +9,11 @@ class Product(Base):
     __tablename__ = 'product'
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
-    url = Column(String(1000), nullable=False)
-    price = Column(Integer,nullable=False)
-    instock = Column(Integer, nullable=False)
-    lastupdate = Column(DateTime,nullable=False)
+    url = Column(String(1000), nullable=False, primary_key=True)
+    name = Column(String(250), nullable=True)
+    price = Column(Integer,nullable=True)
+    instock = Column(Integer, nullable=True)
+    lastupdate = Column(DateTime,nullable=True)
 
 
 # Create an engine that stores data in the local directory's
