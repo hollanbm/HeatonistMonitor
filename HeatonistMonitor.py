@@ -1,32 +1,46 @@
+import datetime
 from selenium import webdriver
-from pushover import Client
 import schedule
 import time
+from DB.create_db import Base, Product
+from sqlalchemy import create_engine
+engine = create_engine("sqlite:///./DB/heatonist_monitor.db")
+Base.metadata.bind = engine
+from sqlalchemy.orm import sessionmaker
+DBSession = sessionmaker()
+DBSession.bind = engine
+session = DBSession()
 
+def getProductInfo(browser,prod):
+    browser.get(prod.url)
+    prod.instock = 1 if browser.execute_script("return document.getElementById('AddToCartText').innerText") != "SOLD OUT" else 0
+    prod.price = browser.execute_script("return document.getElementById('ProductPrice').innerText").replace('$','')
+    prod.lastupdate = datetime.datetime.today()
+    session.commit()
 
-def isAvailable(url):
+def job():
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
     browser = webdriver.Chrome(chrome_options=options)
-    browser.get(url)
-    cart_text = browser.execute_script("return document.getElementById('AddToCartText').innerText")
+    for prod in session.query(Product).all():
+        old_stock = prod.instock
+        old_price = prod.price
+        getProductInfo(browser, prod)
+        if old_stock == 0 and prod.instock == 1:
+            #send now in stock alert
+            pass
+        elif old_stock == 1 and prod.instock == 0:
+            #send out of stock alert
+            pass
+        elif old_stock == prod.instock and old_price != prod.price:
+            #send out price change alert
+            pass
     browser.close()
-    return cart_text != 'SOLD OUT'
-
-def job():
-    last_dab_url = 'https://heatonist.com/collections/hot-ones-hot-sauces/products/hot-ones-the-last-dab-reaper-edition'
-    if isAvailable(last_dab_url):
-        #MAKE SURE TO UPDATE THIS FILE WITH THE PUSHOVER KEY/TOKEN
-        pushoverUserKey = "pushover user key goes here"
-        pushoverApiToken = "pushover api token goes here"
-        client = Client(pushoverUserKey, api_token=pushoverApiToken)
-        client.send_message(last_dab_url, title="Last Dab Available")
 
 def main():
-    schedule.every(1).minutes.do(job)
+    schedule.every(1).minute.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
-
 
 main()
