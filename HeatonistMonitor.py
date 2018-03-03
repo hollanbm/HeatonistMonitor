@@ -21,7 +21,6 @@ def getProductInfo(browser,prod):
     prod.name = browser.execute_script("return document.getElementsByClassName('product-details-product-title')[0].innerText")
     prod.instock = 1 if browser.execute_script("return document.getElementById('AddToCartText').innerText") != "SOLD OUT" else 0
     prod.price = browser.execute_script("return document.getElementById('ProductPrice').innerText").replace('$','')
-    prod.lastupdate = datetime.datetime.today()
     session.commit()
     print(prod.url)
     print("updated database info")
@@ -34,10 +33,12 @@ def job():
     for prod in session.query(Product).all():
         old_stock = prod.instock
         old_price = prod.price
+        old_lastupdate = prod.lastupdate
         getProductInfo(browser, prod)
         if old_stock is None and old_price is None:
-            pass
-        elif old_stock == prod.instock and old_price != prod.price:
+            #do nothing on the first run, just populating db info
+            return
+        if old_stock == prod.instock and old_price != prod.price:
             # send out price change alert
             print('{0} PRICE CHANGE,'
                   ' was {1}, now {2}'.format(prod.name, old_price,prod.price))
@@ -45,7 +46,12 @@ def job():
         elif old_stock == 0 and prod.instock == 1:
             #send now in stock alert
             print('{0} is now in stock'.format(prod.name))
-            createTweet('{0} is now in stock'.format(prod.name))
+            if (prod.lastupdate - old_lastupdate).days * 24 < 1:
+                #I noticed that sometimes the stock would go in/out randomly
+                #this should hopefully reduce spam, by only tweeting new stock updates every hour
+                createTweet('{0} is now in stock'.format(prod.name))
+                prod.lastupdate = datetime.datetime.today()
+                session.commit()
     browser.close()
 
 def createTweet(message):
