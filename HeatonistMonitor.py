@@ -14,7 +14,6 @@ from sqlalchemy.orm import sessionmaker
 DBSession = sessionmaker()
 DBSession.bind = engine
 session = DBSession()
-temp = session.query(Product).all()
 
 def getProductInfo(browser,prod):
     browser.get(prod.url)
