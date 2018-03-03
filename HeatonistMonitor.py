@@ -27,6 +27,7 @@ def getProductInfo(browser,prod):
     print("updated database info")
 
 def job():
+    print("checking heatonist")
     options = webdriver.ChromeOptions()
     options.add_argument("headless")
     browser = webdriver.Chrome(chrome_options=options)
@@ -38,7 +39,8 @@ def job():
             pass
         elif old_stock == prod.instock and old_price != prod.price:
             # send out price change alert
-            print('{0} PRICE CHANGE, was {1}, now {2}'.format(prod.name, old_price,prod.price))
+            print('{0} PRICE CHANGE,'
+                  ' was {1}, now {2}'.format(prod.name, old_price,prod.price))
             createTweet('{0} PRICE CHANGE, was {1}, now {2}'.format(prod.name, old_price,prod.price))
         elif old_stock == 0 and prod.instock == 1:
             #send now in stock alert
