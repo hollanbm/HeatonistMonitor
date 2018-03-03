@@ -13,9 +13,9 @@ ADD DB/populate_db.py /home/seluser/app/populate_db.py
 
 WORKDIR /home/seluser/app/
 
-RUN sudo pip3 install --upgrade pip
 RUN sudo pip3 install -r requirements.txt
 
 CMD ["python3", "create_db.py"]
 CMD ["python3", "populate_db.py"]
+ADD DB/heatonist_monitor.db /home/seluser/app/DB/heatonist_monitor.db
 CMD ["python3", "HeatonistMonitor.py"]
