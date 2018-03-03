@@ -13,3 +13,6 @@ run docker-compuse up -d
 
 You can get this working on windows, but you will need to install chromedriver (https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver) and add it to your path/
 
+
+
+Currently working on twitter integration (beta branch). Eventually, the monitor will tweet out stock and price drop alerts
