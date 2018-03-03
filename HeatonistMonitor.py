@@ -26,15 +26,16 @@ def job():
         old_stock = prod.instock
         old_price = prod.price
         getProductInfo(browser, prod)
-        if old_stock == 0 and prod.instock == 1:
+        if old_stock == prod.instock and old_price != prod.price:
+            #send out price change alert
+            pass
+        elif old_stock == 0 and prod.instock == 1:
             #send now in stock alert
             pass
         elif old_stock == 1 and prod.instock == 0:
             #send out of stock alert
             pass
-        elif old_stock == prod.instock and old_price != prod.price:
-            #send out price change alert
-            pass
+
     browser.close()
 
 def main():
