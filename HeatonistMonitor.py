@@ -8,7 +8,7 @@ from DB.create_db import Base, Product
 from sqlalchemy import create_engine
 from twitter import *
 
-engine = create_engine("sqlite:///./DB/heatonist_monitor.db")
+engine = create_engine("sqlite:////DB/heatonist_monitor.db")
 Base.metadata.bind = engine
 from sqlalchemy.orm import sessionmaker
 DBSession = sessionmaker()
