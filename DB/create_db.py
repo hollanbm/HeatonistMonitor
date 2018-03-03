@@ -18,7 +18,7 @@ class Product(Base):
 
 # Create an engine that stores data in the local directory's
 # sqlalchemy_example.db file.
-engine = create_engine('sqlite:///heatonist_monitor.db')
+engine = create_engine('sqlite:////DB/heatonist_monitor.db')
 
 # Create all tables in the engine. This is equivalent to "Create Table"
 # statements in raw SQL.
