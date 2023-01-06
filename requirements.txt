@@ -9,4 +9,4 @@ schedule==0.5.0
 selenium==3.9.0
 SQLAlchemy==1.2.4
 twitter==1.18.0
-urllib3==1.22
+urllib3==1.26.5
